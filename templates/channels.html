@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+
+{% include 'html_includes/header.html' %}
+
+<head>
+        <script>
+            var channels = [];
+            var channel_count = -1;
+
+            document.addEventListener('DOMContentLoaded', () => {
+
+
+                if (channel_count >= 0) {
+
+
+                }
+                // By default, submit button is disabled
+                document.querySelector('#submit').disabled = true;
+
+                // Enable button only if there is text in the input field
+                document.querySelector('#channel').onkeyup = () => {
+                    if (document.querySelector('#channel').value.length > 0)
+                        document.querySelector('#submit').disabled = false;
+                    else
+                        document.querySelector('#submit').disabled = true;
+                };
+
+                document.querySelector('#new-channel').onsubmit = () => {
+
+                    channel_count = channel_count + 1;
+
+                    // Create new item for list
+                    const li = document.createElement('li');
+                    li.innerHTML = document.querySelector('#channel').value;
+
+                    // Add new item to channel list
+                    channels[channel_count] = li.innerHTML;
+                    // Put the object into storage
+                    localStorage.setItem('local_channels', JSON.stringify(channels));
+                    localStorage.setItem('local_channel_count', JSON.stringify(channel_count))
+
+                    document.querySelector('#channels').append(li);
+
+                    // Clear input field and disable button again
+                    document.querySelector('#channel').value = '';
+                    document.querySelector('#submit').disabled = true;
+
+                    // Stop form from submitting
+                    return false;
+                };
+
+            });
+        </script>
+
+     </head>
+
+<!-- Primary Page Layout -->
+
+<body>
+
+<main style="text-align: center;">
+
+    
+
+<div class="col-lg-4 col-sm-3 mv_nav_items " style="text-align: center;"> </div>
+
+<div class="col-lg-3 col-sm-3 mv_nav_items " style="text-align: center;">  
+<div class="mv_header_title">
+
+  <h2> Welcome to LetsTalk by Manish Vaidya </h2>
+  <h3> <i> Find all your favorite topics to talk about </i> </h3>
+  <h3> <i> Hello {{ session['dp_name'] }}, choose from the channel list </i> </h3>
+</div>    
+
+<div class="">    
+
+  <h3>Channels</h3>
+  <ul id="channels"> </ul>
+  <form id="new-channel">
+      <input id="channel" autocomplete="off" autofocus placeholder="New Channel" type="text">
+      <input id="submit" type="submit">
+  </form>
+
+</div>    
+
+
+           <p>
+             <h4><a href="/logout">Sayonara!</a></h4>
+           </p>
+         
+    <div class="col-lg-6 col-sm-3 mv_nav_items " style="text-align: center;"> </div>
+    
+
+{% include 'html_includes/end_js.html' %}
+
+</main>
+
+
+</body>
+</html>
