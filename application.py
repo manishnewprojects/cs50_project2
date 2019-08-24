@@ -2,15 +2,18 @@ import os
 
 from flask import Flask, session, render_template, request, flash 
 from flask import redirect, session, abort, url_for,session,logging,request 
-from flask_socketio import SocketIO, emit
+from flask_socketio import SocketIO, join_room, emit
+
 
 app = Flask(__name__)
 socketio = SocketIO(app)
 
 #Defs to allow session
-app.config['SESSION_TYPE']	= 'filesystem'
-app.secret_key 				= os.urandom(12)
-app.config["SECRET_KEY"] 	= os.urandom(12)
+app.config['SESSION_TYPE']	 = 'filesystem'
+app.secret_key 				 = os.urandom(12)
+
+channel_list = []
+i = 0
 
 
 #Base 
@@ -42,12 +45,23 @@ def channels():
 
 	return render_template("dp_set.html")
 
-
+ 
 @app.route("/logout")
 def logout():
 	session.pop('username', None)
 	session['logged_in'] = False
 	return redirect(url_for('index'))
+
+@socketio.on('connect')
+def on_connect():
+	print("CONNECTED YES!")
+
+
+@socketio.on('create')
+def on_create(channel_name):
+	print("CONNECTED HERE!")
+	emit('join_room', channel_name)
+
 
 if __name__ == '__main__':
     socketio.run(app)
