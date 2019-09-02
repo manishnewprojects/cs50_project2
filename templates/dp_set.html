@@ -11,33 +11,37 @@
 
 <body>
 
+    <div class="col-lg-4 col-sm-6 " style="text-align: center; background-color: skyblue"> 
+      <br>
+
+
+    </div>
+
+    <div class="col-lg-4 col-sm-6 mv_nav_items " style="text-align: center;"> 
+
 <main style="text-align: center;">
 
-    
+<h2> Welcome to LetsTalk <br> by Manish Vaidya </h2>
+<h3> <i> Find all your favorite topics to talk about </i> </h3>
 
-    <div class="col-lg-4 col-sm-3 mv_nav_items " style="text-align: center;"> </div>
 
-    <div class="col-lg-3 col-sm-3 mv_nav_items " style="text-align: center;">  
-    	 <div class="mv_header_title">
+<form method="POST">
+<div class="form-group">
+<label for="display_name"><h3>Choose Display Name</h3></label>
+<input type="text" name="dp_name" class="form-control" id="dp_name">
+</div>
+<button type="submit" class="btn form-control btn-default"><b>LetsTalk</b></button>
+</form>
 
-            <h2> Welcome to LetsTalk by Manish Vaidya </h2>
-            <h3> <i> Find all your favorite topics to talk about </i> </h3>
-            
+</div>
+
+  <div class="col-lg-4 col-sm-6 " style="text-align: center; background-color: skyblue"> 
+      <br>
+
+
     </div>
 
-            <ul>
-            	<form method="POST">
-            <div class="form-group">
-              <label for="display_name"><h3>Choose Display Name</h3></label>
-              <input type="text" name="dp_name" class="form-control" id="dp_name">
-            </div>
-         <button type="submit" class="btn form-control btn-default"><b>LetsTalk</b></button>
-         </form>
-                
-            </ul>
-    </div>
-         
-    <div class="col-lg-6 col-sm-3 mv_nav_items " style="text-align: center;"> </div>
+
 
 {% include 'html_includes/end_js.html' %}
 

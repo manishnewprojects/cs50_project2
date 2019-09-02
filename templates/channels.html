@@ -10,60 +10,69 @@
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
 <script type="text/javascript" charset="utf-8">
 
-var socket = io.connect('http://' + document.domain + ':' + location.port);
+var socket = io.connect('http://' + document.domain + ':' + location.port,{'sync disconnect on unload':true});
 
-    // verify our websocket connection is established
-    //socket.on('connect', function() {
-    //    console.log('Websocket connected!');
-    //});
-     
 </script>   
   
-
 </head>
 
 <!-- Primary Page Layout -->
-
 <body>
 
 <main style="text-align: center;">
 
-    
-
-<div class="col-lg-4 col-sm-3 mv_nav_items " style="text-align: center;"> </div>
-
-<div class="col-lg-3 col-sm-3 mv_nav_items " style="text-align: center;">  
+ 
 <div class="mv_header_title">
-
-  <h2> Welcome to LetsTalk by Manish Vaidya </h2>
+  <h2> Welcome to LetsTalk <br> by Manish Vaidya </h2>
   <h3> <i> Find all your favorite topics to talk about </i> </h3>
-  <h3> <i> Hello {{ session['dp_name'] }}, choose from the channel list </i> </h3>
-</div>    
+  <h3> <i> Hello {{ session['dp_name'] }}, here are channels available to talk. Select one: </i> </h3>
+</div>   
+ 
+
+ <ul id="channels"> 
+
+<li> No channels yet </li>
+
+ </ul>
 
 
-<div class="">    
+<script type="text/javascript">
 
-  <h3>Channels</h3>
-  <ul id="channels"> </ul>
-  <form id="new-channel">
+
+socket.emit('startup');
+
+socket.on('master_channel_list', function(data) {
+            j=0; display_list=""
+            while (j <= data.items) {
+                display_list += "<li> <a href=\"/join\">"+data.master_channel_list[j]+"</li>"
+                j++
+            }
+            document.querySelector('#channels').innerHTML = display_list;
+        });
+
+</script>
+
+
+<h3>Or start your own. Enter channel name: </h3>
+
+ 
+<form id="new-channel">
       <input id="channel" autocomplete="off" autofocus placeholder="New Channel" type="text">
-      <input id="submit" type="submit">
+      <input id="submit" type="submit" value="Add channel">
   </form>
+ 
 
-</div>    
-
-
+<p id="error_message"> </p>
+  
 <p>
  <h4><a href="/logout">Sayonara!</a></h4>
 </p>
 
 <div class="col-lg-6 col-sm-3 mv_nav_items " style="text-align: center;"> </div>
-    
 
 {% include 'html_includes/end_js.html' %}
 
 </main>
-
 
 </body>
 </html>
