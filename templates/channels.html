@@ -5,12 +5,17 @@
 
 {% include 'html_includes/header.html' %}
 
+ 
+
  <script src="{{ url_for('static', filename='index.js') }}"></script>
 
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
-<script type="text/javascript" charset="utf-8">
 
-var socket = io.connect('http://' + document.domain + ':' + location.port,{'sync disconnect on unload':true});
+<script type="text/javascript">
+
+
+
+  var socket = io.connect('http://' + document.domain + ':' + location.port,{'sync disconnect on unload':true});
+  
 
 </script>   
   
@@ -42,13 +47,10 @@ var socket = io.connect('http://' + document.domain + ':' + location.port,{'sync
 socket.emit('startup');
 
 socket.on('master_channel_list', function(data) {
-            j=0; display_list=""
-            while (j <= data.items) {
-                display_list += "<li> <a href=\"/join\">"+data.master_channel_list[j]+"</li>"
-                j++
-            }
-            document.querySelector('#channels').innerHTML = display_list;
-        });
+           
+ 
+document.querySelector('#channels').innerHTML =  data.ch_list;
+});
 
 </script>
 

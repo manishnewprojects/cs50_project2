@@ -1,6 +1,7 @@
 
  document.addEventListener('DOMContentLoaded', () => {
 
+
     // By default, submit button is disabled
     document.querySelector('#submit').disabled = true;
 
@@ -26,14 +27,10 @@
         socket.emit('add channel', channel_name);
 
         socket.on('current_channel_list', function(data) {
-            j=0; display_list=""
-            while (j <= data.items) {
-                display_list += "<li> <a href=\"/join\">"+data.ch_list[j]+"</li>"
-                j++
-            }
-            document.querySelector('#channels').innerHTML = display_list;
-        });
-   
+
+            document.querySelector('#channels').innerHTML =  data.ch_list;
+        }); 
+         
         // Clear input field and disable button again
         document.querySelector('#channel').value = '';
         document.querySelector('#submit').disabled = true;
@@ -47,7 +44,7 @@
             document.querySelector('#error_message').innerHTML = data.error_msg;
         }
     });
- 
+
  
 });
 

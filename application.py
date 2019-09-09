@@ -13,8 +13,9 @@ app.config['SESSION_TYPE']	 = 'filesystem'
 app.secret_key 				 = os.urandom(12)
 
  
-i=-1
-channel_list = [] 
+channel_count=-1
+channel_list = {}
+channel_data = [[[]]]
 error = ""
 
 
@@ -46,29 +47,48 @@ def channels():
 
 @socketio.on('startup')
 def on_startup():
-	global i, channel_list
+	global channel_count, channel_list
+	ch_list=""
 
-	if i>-1:
-		emit('master_channel_list', { "master_channel_list" : channel_list, "items" : i}, broadcast=True)
- 
+	if channel_count > -1:
+		for value in channel_list.values():
+			ch_list+="<li> <a href=\"chats/"+value+"\">"+value+"</a></li>"
+
+ 		emit('master_channel_list', { "ch_list" : ch_list}, broadcast=True)
+
+
 @socketio.on('add channel')
 def on_add_channel(channel_name):
-	global i, channel_list, error
-
-	error=""
-	if channel_name in channel_list:
+	global channel_count, channel_list, error 
+	ch_list=""
+ 	error=""
+ 	
+	if channel_name in channel_list.values():
 		error = "Channel already exists!"
 		emit('error',{"error_msg" : error}, broadcast=True)
 	else:
-		i = i+1
-		channel_list.append(channel_name)
- 		emit('current_channel_list', { "ch_list" : channel_list, "items" : i}, broadcast=True)
+		channel_count+=1
+		channel_list.update({channel_count:channel_name})
+		for value in channel_list.values():
+			ch_list+="<li> <a href=\"chats/"+value+"\">"+value+"</a></li>"
 
-@app.route("/join",  methods=["GET", "POST"])
-def join_room():
+ 		emit('current_channel_list', { "ch_list" :  ch_list }, broadcast=True)
+
+
+@app.route("/chats/<channel>",  methods=["GET", "POST"])
+def chats(channel):
+	session['channel'] = channel
+ 	return render_template("chats.html", channel=channel)
+
+
+@socketio.on('message posted')
+def message_posted(message):
+	global chat_history, channel_list, channel_map, channel_count
+
+ 	print("dict", channel_list, "session", session['channel'])
 	 
-	return render_template("chats.html")
-
+	emit('message_buffer',{"chat_history" : message}, broadcast=True)
+	
 
 @app.route("/logout",  methods=["GET", "POST"])
 def logout():
