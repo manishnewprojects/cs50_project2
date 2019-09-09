@@ -62,12 +62,13 @@ def on_add_channel(channel_name):
 	global channel_count, channel_list, error 
 	ch_list=""
  	error=""
- 	
+
 	if channel_name in channel_list.values():
 		error = "Channel already exists!"
 		emit('error',{"error_msg" : error}, broadcast=True)
 	else:
 		channel_count+=1
+		session['channel_id']=channel_count
 		channel_list.update({channel_count:channel_name})
 		for value in channel_list.values():
 			ch_list+="<li> <a href=\"chats/"+value+"\">"+value+"</a></li>"
@@ -82,12 +83,15 @@ def chats(channel):
 
 
 @socketio.on('message posted')
-def message_posted(message):
-	global chat_history, channel_list, channel_map, channel_count
+def message_posted(message_id, message):
+	global channel_count, channel_list, chat_data
+	message_store=""
 
- 	print("dict", channel_list, "session", session['channel'])
-	 
-	emit('message_buffer',{"chat_history" : message}, broadcast=True)
+	message_store+=session['dp_name']+":"+message+"<br>"
+	message_id+=1
+
+ 	#chat_data[chat_data[session['channel_id']].append(message_id)].append(message)	 
+	emit('message_buffer',{"chat_history" : message_store}, broadcast=True)
 	
 
 @app.route("/logout",  methods=["GET", "POST"])
