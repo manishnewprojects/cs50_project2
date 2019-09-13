@@ -8,8 +8,7 @@
     // Enable button only if there is text in the input field
     document.querySelector('#channel').onkeyup = () => {
 
-        document.querySelector('#error_message').innerHTML = ""
-
+ 
         if (document.querySelector('#channel').value.length > 0)
             document.querySelector('#submit').disabled = false;
         else
@@ -35,16 +34,21 @@
         document.querySelector('#channel').value = '';
         document.querySelector('#submit').disabled = true;
 
+
+       
+        socket.on('error', function(data) {
+
+            if ((data.error_msg != "") && (data.channel == channel_name)){
+             alert("channel already exists");
+             }
+         });
+
         // Stop form from submitting
         return false;
+
+
     };
-
-    socket.on('error', function(data) {
-         if (data.error_msg != "") {
-            document.querySelector('#error_message').innerHTML = data.error_msg;
-        }
-    });
-
+ 
  
 });
 

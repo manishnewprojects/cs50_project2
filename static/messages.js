@@ -2,7 +2,15 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
-message_id=0;
+socket.emit('leave_now');
+
+socket.emit('join_now');
+
+socket.on('message_history', function(data) {
+
+        document.querySelector('#messages').innerHTML = data.chat_so_far ;
+
+    });
 
 // By default, submit button is disabled
 document.querySelector('#message_submit').disabled = true;
@@ -21,13 +29,12 @@ document.querySelector('#message_submit').disabled = true;
  document.querySelector('#new-message').onsubmit = () => {
 
 	var message = document.getElementById("message").value;
-    message_id+=1;
 
-    socket.emit('message posted', message_id, message);
+    socket.emit('message posted', message);
 
     socket.on('message_buffer', function(data) {
 
-   document.querySelector('#messages').innerHTML = data.chat_history ;
+        document.querySelector('#messages').innerHTML = data.chat_history ;
 
     });
 

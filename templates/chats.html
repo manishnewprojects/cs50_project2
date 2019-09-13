@@ -17,6 +17,7 @@
 
   var socket = io.connect('http://' + document.domain + ':' + location.port,{'sync disconnect on unload':true});
   
+  
 
 </script>
 
@@ -40,7 +41,7 @@
  
  <div> Welcome to chat channel: {{channel}} </div>
 
- <br> Messages: <br> <div id="messages">  </div>
+ <br> <strong> Messages </strong> <br> <div id="messages">  </div>
 
 
 
@@ -50,7 +51,7 @@
   </form>
  
  
- <h4><a href="/">Back to channels list</a></h4>
+ <h4><a href="/channels">Back to channels list</a></h4>
 </p>
 
   

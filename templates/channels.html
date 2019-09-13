@@ -32,9 +32,10 @@
   <h3> <i> Find all your favorite topics to talk about </i> </h3>
   <h3> <i> Hello {{ session['dp_name'] }}, here are channels available to talk. Select one: </i> </h3>
 </div>   
- 
 
- <ul id="channels"> 
+
+
+<ul id="channels"> 
 
 <li> No channels yet </li>
 
@@ -43,6 +44,7 @@
 
 <script type="text/javascript">
 
+ 
 
 socket.emit('startup');
 
@@ -57,15 +59,15 @@ document.querySelector('#channels').innerHTML =  data.ch_list;
 
 <h3>Or start your own. Enter channel name: </h3>
 
- 
+
+
 <form id="new-channel">
       <input id="channel" autocomplete="off" autofocus placeholder="New Channel" type="text">
       <input id="submit" type="submit" value="Add channel">
-  </form>
+</form>
+
  
 
-<p id="error_message"> </p>
-  
 <p>
  <h4><a href="/logout">Sayonara!</a></h4>
 </p>
