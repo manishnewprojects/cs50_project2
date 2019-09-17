@@ -31,11 +31,15 @@ document.querySelector('#message_submit').disabled = true;
 
 	var message = document.getElementById("message").value;
 
-    socket.emit('message posted', message);
+    socket.emit('message posted', {'message':message, 'channel': localStorage.getItem('channel')});
 
     socket.on('message_buffer', function(data) {
 
-        document.querySelector('#messages').innerHTML = data.chat_history ;
+ 
+        if ( data.channel.replace(/\s/g,"") == localStorage.getItem('channel').replace(/\s/g,"") )
+        {
+            document.querySelector('#messages').innerHTML = data.chat_history ;
+        }
 
 });
 

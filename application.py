@@ -81,7 +81,7 @@ def on_startup():
 
 @socketio.on('add channel')
 def on_add_channel(channel_name):
-	global channel_id, channel_list, error , channel_messages 
+	global channel_id, channel_list, error
 
 	channel_message_deck = deque(maxlen=100)
 	ch_list=""
@@ -94,9 +94,6 @@ def on_add_channel(channel_name):
 		channel_id+=1
 		session['channel_id']=channel_id
 
-		channel_messages.append(channel_id)
-		channel_messages[channel_id] = ""
-
 		channel_message_history.append(channel_id)
 		channel_message_history[channel_id] = channel_message_deck
 
@@ -105,6 +102,8 @@ def on_add_channel(channel_name):
 			ch_list+="<li> <a href=\"chats/"+key+"\">"+key+"</a></li>"
 
  		emit('current_channel_list', { "ch_list" :  ch_list }, broadcast=True)
+ 		emit('master_channel_list', { "ch_list" : ch_list}, broadcast=True)
+
 
 
 @app.route("/chats/<channel>",  methods=["GET", "POST"])
@@ -119,7 +118,7 @@ def chats(channel):
 
 @socketio.on('join_now')
 def joining():
-	global channel_id, channel_messages, channel_message_history
+	global channel_id, channel_message_history
 	composed_message=""
 
 	join_room(channel_id)
@@ -143,11 +142,15 @@ def leaving():
 	leave_room(channel_id)
 
 @socketio.on('message posted')
-def message_posted(message):
-	global channel_id, channel_list, channel_messages, channel_message_history
+def message_posted(message_details):
+	global channel_id, channel_list, channel_message_history
 	formatted_message = ""
 	composed_message=""
 	current_time = datetime.datetime.now()
+	
+	message=message_details['message']
+
+ 	join_room(message_details['channel'])
 
 	setup_jokes()
 	if (message=="/joke"):
@@ -172,11 +175,9 @@ def message_posted(message):
 		composed_message+=channel_message_history[session['channel_id']][i]
 		i+=1
 
-	channel_messages[session['channel_id']] += formatted_message
+	emit('message_buffer',{"chat_history" : composed_message, "channel" : session['channel'], "user": session['dp_name']}, room=channel_id)
+ 	emit('message_history',{"chat_so_far" : composed_message}, room=channel_id)
 
-	emit('message_buffer',{"chat_history" : composed_message}, room=channel_id)
- 
- 	
 @app.route("/logout",  methods=["GET", "POST"])
 def logout():
 

@@ -35,9 +35,10 @@ var socket = io.connect('http://' + document.domain + ':' + location.port,{'sync
 <div> Welcome to chat channel: {{channel}} </div>
 
 <p id="current_channel" hidden> {{channel}} </p>
+<p id="current_user" hidden> {{session['dp_name']}} </p>
 <script type="text/javascript">
- 	if (document.querySelector('#current_channel').innerHTML != localStorage.getItem('channel'))
  		localStorage.setItem('channel',document.querySelector('#current_channel').innerHTML);
+ 		localStorage.setItem('user',document.querySelector('#current_user').innerHTML);
 </script>
 
  <br> <strong> Messages </strong> <br> <div id="messages">  </div>
