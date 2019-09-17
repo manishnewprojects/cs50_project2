@@ -5,62 +5,58 @@
 
 {% include 'html_includes/header.html' %}
 
- 
-
-
- <script src="{{ url_for('static', filename='messages.js') }}"> 
- </script>
+<script src="{{ url_for('static', filename='messages.js') }}"> </script>
  	
-
 <script type="text/javascript">
 
-
-  var socket = io.connect('http://' + document.domain + ':' + location.port,{'sync disconnect on unload':true});
+var socket = io.connect('http://' + document.domain + ':' + location.port,{'sync disconnect on unload':true});
   
-  
-
 </script>
-
- 
-  
-
 
 </head>
 
 <!-- Primary Page Layout -->
 <body>
 
-<main style="text-align: center;">
+<main>
 
- 
-<div class="mv_header_title">
-  <h2> Welcome to LetsTalk <br> by Manish Vaidya </h2>
+<div  class="col-lg-3 col-sm-6 "> </div>
+
+<div class="col-lg-6 col-sm-6" style="text-align: center; background-color:#E8E8E8"> 
+
+<h2> LetsTalk  </h2>
+<h3> by Manish Vaidya </h3>
+<br>
+<h4 class="font-italic"> Find all your favorite topics to talk about </h4>
    
-  <h3> <i> Hello {{ session['dp_name'] }}  </i> </h3>
-</div>   
+<h3> <i> Hello {{ session['dp_name'] }}  </i> </h3>
  
- <div> Welcome to chat channel: {{channel}} </div>
+ 
+<div> Welcome to chat channel: {{channel}} </div>
+
+<p id="current_channel" hidden> {{channel}} </p>
+<script type="text/javascript">
+ 	if (document.querySelector('#current_channel').innerHTML != localStorage.getItem('channel'))
+ 		localStorage.setItem('channel',document.querySelector('#current_channel').innerHTML);
+</script>
 
  <br> <strong> Messages </strong> <br> <div id="messages">  </div>
 
+<br>
 
-
- <form id="new-message">
+<form id="new-message">
       <input id="message" autocomplete="off" autofocus placeholder="New message" type="text">
       <input id="message_submit" type="submit" value="new message">
-  </form>
+</form>
  
- 
- <h4><a href="/channels">Back to channels list</a></h4>
-</p>
+<h4><a href="/channels" >Back to channels list</a></h4>
 
-  
-
-<div class="col-lg-6 col-sm-3 mv_nav_items " style="text-align: center;"> </div>
+<div  class="col-lg-3 col-sm-6 "> </div>
 
 {% include 'html_includes/end_js.html' %}
 
 </main>
 
 </body>
+
 </html>

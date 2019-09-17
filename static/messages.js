@@ -6,6 +6,8 @@ socket.emit('leave_now');
 
 socket.emit('join_now');
 
+localStorage.setItem('channel',document.querySelector('#current_channel').innerHTML);
+
 socket.on('message_history', function(data) {
 
         document.querySelector('#messages').innerHTML = data.chat_so_far ;
@@ -25,7 +27,6 @@ document.querySelector('#message_submit').disabled = true;
             document.querySelector('#message_submit').disabled = true;
     };
 
-
  document.querySelector('#new-message').onsubmit = () => {
 
 	var message = document.getElementById("message").value;
@@ -36,18 +37,18 @@ document.querySelector('#message_submit').disabled = true;
 
         document.querySelector('#messages').innerHTML = data.chat_history ;
 
-    });
+});
 
 
      // Clear input field and disable button again
-    document.querySelector('#message').value = '';
-    document.querySelector('#message_submit').disabled = true;
+document.querySelector('#message').value = '';
+document.querySelector('#message_submit').disabled = true;
 
     // Stop form from submitting
-    return false;
+return false;
+
  }
 
- 
 
 });
  

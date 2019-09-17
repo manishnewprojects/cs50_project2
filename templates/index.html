@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+
+{% include 'html_includes/header.html' %}
+
+</head>
+
+<!-- Primary Page Layout -->
+
+<body>
+
+<div  class="col-lg-3 col-sm-6 "> 
+
+<p style="width: align; height: align;"> </p>
+
+</div>
+
+<div class="col-lg-6 col-sm-6" style="text-align: center; background-color:#E8E8E8"> 
+
+<h2> LetsTalk  </h2>
+<h3> by Manish Vaidya </h3>
+<br>
+<h4 class="font-italic"> Find all your favorite topics to talk about </h4>
+ 
+
+<form method="POST">
+<div class="form-group">
+<label for="display_name"><h3>Choose Display Name</h3></label>
+
+{% if error %}
+    <p><strong>Error:</strong> {{ error }}</p>
+{% endif %}
+
+<input type="text" name="dp_name" class="form-control" id="dp_name">
+</div>
+<button type="submit" class="btn btn-primary"><b>LetsTalk</b></button>
+</form>
+
+</div> <div class="col-lg-3 col-sm-6" > </div>
+
+{% include 'html_includes/end_js.html' %}
+
+</main>
+
+
+</body>
+</html>

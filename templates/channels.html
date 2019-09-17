@@ -5,18 +5,10 @@
 
 {% include 'html_includes/header.html' %}
 
- 
-
- <script src="{{ url_for('static', filename='index.js') }}"></script>
-
+<script src="{{ url_for('static', filename='index.js') }}"></script>
 
 <script type="text/javascript">
-
-
-
-  var socket = io.connect('http://' + document.domain + ':' + location.port,{'sync disconnect on unload':true});
-  
-
+	var socket = io.connect('http://' + document.domain + ':' + location.port,{'sync disconnect on unload':true});
 </script>   
   
 </head>
@@ -26,53 +18,45 @@
 
 <main style="text-align: center;">
 
- 
-<div class="mv_header_title">
-  <h2> Welcome to LetsTalk <br> by Manish Vaidya </h2>
-  <h3> <i> Find all your favorite topics to talk about </i> </h3>
-  <h3> <i> Hello {{ session['dp_name'] }}, here are channels available to talk. Select one: </i> </h3>
-</div>   
+<div  class="col-lg-3 col-sm-6 "> </div>
 
+<div class="col-lg-6 col-sm-6" style="text-align: center; background-color:#E8E8E8"> 
 
+<h2> LetsTalk  </h2>
+<h3> by Manish Vaidya </h3>
+<br>
+<h4 class="font-italic"> Find all your favorite topics to talk about </h4>
+<h3> <i> Hello {{ session['dp_name'] }}, here are channels available to talk. Select one: </i> </h3>
 
 <ul id="channels"> 
 
 <li> No channels yet </li>
 
- </ul>
+</ul>
 
 
 <script type="text/javascript">
 
- 
-
 socket.emit('startup');
-
 socket.on('master_channel_list', function(data) {
-           
- 
-document.querySelector('#channels').innerHTML =  data.ch_list;
+	document.querySelector('#channels').innerHTML =  data.ch_list;
 });
 
 </script>
 
 
 <h3>Or start your own. Enter channel name: </h3>
-
-
-
 <form id="new-channel">
       <input id="channel" autocomplete="off" autofocus placeholder="New Channel" type="text">
-      <input id="submit" type="submit" value="Add channel">
+      <input id="submit" type="submit" class="btn btn-primary" value="Add channel">
 </form>
 
- 
-
+<br>
 <p>
- <h4><a href="/logout">Sayonara!</a></h4>
+ 	<h4><a href="/logout">Log out. Sayonara!</a></h4>
 </p>
 
-<div class="col-lg-6 col-sm-3 mv_nav_items " style="text-align: center;"> </div>
+<div  class="col-lg-3 col-sm-6 "> </div>
 
 {% include 'html_includes/end_js.html' %}
 
