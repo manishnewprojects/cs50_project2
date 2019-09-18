@@ -17,16 +17,16 @@ log = logging.getLogger('werkzeug')
 log.disabled = True
 
 #Defs to allow session
-app.config['SESSION_TYPE']         = 'filesystem'
-app.secret_key                                  = os.urandom(12)
+app.config['SESSION_TYPE'] = 'filesystem'
+app.secret_key             = os.urandom(12)
 
  
-channel_id                                = -1
-channel_message                 = []
-channel_list                         = {}
-channel_message_history = []
-joke                                         = []
-dp_names                                 = []
+channel_id                 = -1
+channel_message            = []
+channel_list               = {}
+channel_message_history    = []
+joke                       = []
+dp_names                   = []
  
  
 @app.route('/')
@@ -182,6 +182,7 @@ def message_posted(message_details):
 def logout():
 
         session['logged_in'] = False
+        dp_names.remove(session['dp_name'])
         session['dp_name'] = ""
 
         session.pop('username', None)
