@@ -14,7 +14,7 @@ greenlet==0.4.15
 idna==2.8
 itsdangerous==1.1.0
 jellyfish==0.7.2
-Jinja2==2.10.1
+Jinja2==2.11.3
 lib50==1.1.12
 MarkupSafe==1.1.1
 monotonic==1.5
